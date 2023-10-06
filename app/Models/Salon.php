@@ -8,7 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Salon extends Model
 {
     use HasFactory;
-    protected $fillable = ['name', 'address'];
+    protected $fillable = [
+        'name',
+        'address'
+    ];
     
     public function services()
     {
