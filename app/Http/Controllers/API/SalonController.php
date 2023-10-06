@@ -5,6 +5,8 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Salon;
+use App\Http\Requests\API\SalonRequest;
+use Illuminate\Validation\ValidationException;
 
 class SalonController extends Controller
 {
@@ -14,10 +16,15 @@ class SalonController extends Controller
         return response()->json($salons);
     }
 
-    public function store(Request $request)
+    public function store(SalonRequest $request)
     {   
-        $salon = Salon::create($request->all());
-        return response()->json($salon, 201);
+        try {
+            $validatedData = $request->validated();
+            $salon = Salon::create($validatedData);
+            return response()->json($salon, 201);
+        } catch (ValidationException $e) {
+            return response()->json(['errors' => $e->errors()], 422);
+        }
     }
 
     public function show($id)
@@ -26,11 +33,16 @@ class SalonController extends Controller
         return response()->json($salon);
     }
 
-    public function update(Request $request, $id)
+    public function update(SalonRequest $request, $id)
     {
-        $salon = Salon::findOrFail($id);
-        $salon->update($request->all());
-        return response()->json($salon, 200);
+        try {
+            $validatedData = $request->validated();
+            $salon = Salon::findOrFail($id);
+            $salon->update($validatedData);
+            return response()->json($salon, 200);
+        } catch (ValidationException $e) {
+            return response()->json(['errors' => $e->errors()], 422);
+        }
     }
 
     public function destroy($id)

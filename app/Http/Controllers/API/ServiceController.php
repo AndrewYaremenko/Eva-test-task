@@ -5,6 +5,8 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Service;
+use App\Http\Requests\API\ServiceRequest;
+use Illuminate\Validation\ValidationException;
 
 class ServiceController extends Controller
 {
@@ -14,10 +16,15 @@ class ServiceController extends Controller
         return response()->json($services);
     }
 
-    public function store(Request $request)
+    public function store(ServiceRequest $request)
     {
-        $service = Service::create($request->all());
-        return response()->json($service, 201);
+        try {
+            $validatedData = $request->validated();
+            $service = Service::create($validatedData);
+            return response()->json($service, 201);
+        } catch (ValidationException $e) {
+            return response()->json(['errors' => $e->errors()], 422);
+        }
     }
 
     public function show($id)
@@ -26,11 +33,16 @@ class ServiceController extends Controller
         return response()->json($service);
     }
 
-    public function update(Request $request, $id)
+    public function update(ServiceRequest $request, $id)
     {
-        $service = Service::findOrFail($id);
-        $service->update($request->all());
-        return response()->json($service, 200);
+        try {
+            $validatedData = $request->validated();
+            $service = Service::findOrFail($id);
+            $service->update($validatedData);
+            return response()->json($service, 200);
+        } catch (ValidationException $e) {
+            return response()->json(['errors' => $e->errors()], 422);
+        }
     }
 
     public function destroy($id)
