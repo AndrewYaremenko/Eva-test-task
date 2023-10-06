@@ -8,23 +8,30 @@ use App\Models\Appointment;
 use App\Http\Requests\API\AppointmentRequest;
 use Illuminate\Validation\ValidationException;
 use App\Http\Resources\API\AppointmentResource;
+use App\Services\API\AppointmentService;
 
 class AppointmentController extends Controller
 {
+    private $appointmentService;
+
+    public function __construct(AppointmentService $appointmentService)
+    {
+        $this->appointmentService = $appointmentService;
+    }
+
     public function index()
     {
-        $appointments = Appointment::orderBy('appointment_date', 'desc')->get();
+        $appointments = $this->appointmentService->getAllAppointments();
         return AppointmentResource::collection($appointments);
     }
 
     public function store(AppointmentRequest $request)
     {
         try {
-            $validatedData = $request->validated();
-            $appointment = Appointment::create($validatedData);
+            $appointment = $this->appointmentService->createAppointment($request);
             return (new AppointmentResource($appointment))
-            ->response()
-            ->setStatusCode(201);
+                ->response()
+                ->setStatusCode(201);
         } catch (ValidationException $e) {
             return response()->json(['errors' => $e->errors()], 422);
         }
@@ -32,16 +39,14 @@ class AppointmentController extends Controller
 
     public function show($id)
     {
-        $appointment = Appointment::findOrFail($id);
+        $appointment = $this->appointmentService->getAppointmentById($id);
         return new AppointmentResource($appointment); 
     }
 
     public function update(AppointmentRequest $request, $id)
     {
         try {
-            $validatedData = $request->validated();
-            $appointment = Appointment::findOrFail($id);
-            $appointment->update($validatedData);
+            $appointment = $this->appointmentService->updateAppointment($request, $id);
             return new AppointmentResource($appointment);
         } catch (ValidationException $e) {
             return response()->json(['errors' => $e->errors()], 422);
@@ -50,8 +55,7 @@ class AppointmentController extends Controller
 
     public function destroy($id)
     {
-        $appointment = Appointment::findOrFail($id);
-        $appointment->delete();
+        $this->appointmentService->deleteAppointment($id);
         return response()->json(['message' => 'Appointment delete'], 204);
     }
 }

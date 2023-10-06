@@ -8,20 +8,27 @@ use App\Models\Salon;
 use App\Http\Requests\API\SalonRequest;
 use Illuminate\Validation\ValidationException;
 use App\Http\Resources\API\SalonResource;
+use App\Services\API\SalonService;
 
 class SalonController extends Controller
 {
+    private $salonService;
+
+    public function __construct(SalonService $salonService)
+    {
+        $this->salonService = $salonService;
+    }
+
     public function index()
     {
-        $salons = Salon::all();
+        $salons = $this->salonService->getAllSalons();
         return SalonResource::collection($salons);
     }
 
     public function store(SalonRequest $request)
     {   
         try {
-            $validatedData = $request->validated();
-            $salon = Salon::create($validatedData);
+            $salon = $this->salonService->createSalon($request);
             return (new SalonResource($salon))
             ->response()
             ->setStatusCode(201);
@@ -32,17 +39,17 @@ class SalonController extends Controller
 
     public function show($id)
     {
-        $salon = Salon::findOrFail($id);
+        $salon = $this->salonService->getSalonById($id);
         return new SalonResource($salon); 
     }
 
     public function update(SalonRequest $request, $id)
     {
         try {
-            $validatedData = $request->validated();
-            $salon = Salon::findOrFail($id);
-            $salon->update($validatedData);
-            return new SalonResource($salon);
+            $salon = $this->salonService->updateSalon($request, $id);
+            return (new SalonResource($salon))
+            ->response()
+            ->setStatusCode(201);
         } catch (ValidationException $e) {
             return response()->json(['errors' => $e->errors()], 422);
         }
@@ -50,8 +57,7 @@ class SalonController extends Controller
 
     public function destroy($id)
     {
-        $salon = Salon::findOrFail($id);
-        $salon->delete();
+        $this->salonService->deleteSalon($id);
         return response()->json(['message' => 'Salon delete'], 204);
     }
 }
