@@ -7,13 +7,14 @@ use Illuminate\Http\Request;
 use App\Models\Service;
 use App\Http\Requests\API\ServiceRequest;
 use Illuminate\Validation\ValidationException;
+use App\Http\Resources\API\ServiceResource;
 
 class ServiceController extends Controller
 {
     public function index()
     {
         $services = Service::all();
-        return response()->json($services);
+        return ServiceResource::collection($services);
     }
 
     public function store(ServiceRequest $request)
@@ -21,7 +22,9 @@ class ServiceController extends Controller
         try {
             $validatedData = $request->validated();
             $service = Service::create($validatedData);
-            return response()->json($service, 201);
+            return (new ServiceResource($service))
+            ->response()
+            ->setStatusCode(201);
         } catch (ValidationException $e) {
             return response()->json(['errors' => $e->errors()], 422);
         }
@@ -30,7 +33,7 @@ class ServiceController extends Controller
     public function show($id)
     {
         $service = Service::findOrFail($id);
-        return response()->json($service);
+        return new ServiceResource($service); 
     }
 
     public function update(ServiceRequest $request, $id)
@@ -39,7 +42,7 @@ class ServiceController extends Controller
             $validatedData = $request->validated();
             $service = Service::findOrFail($id);
             $service->update($validatedData);
-            return response()->json($service, 200);
+            return new ServiceResource($service);
         } catch (ValidationException $e) {
             return response()->json(['errors' => $e->errors()], 422);
         }
