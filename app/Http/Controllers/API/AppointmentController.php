@@ -9,6 +9,7 @@ use App\Http\Requests\API\AppointmentRequest;
 use Illuminate\Validation\ValidationException;
 use App\Http\Resources\API\AppointmentResource;
 use App\Services\API\AppointmentService;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class AppointmentController extends Controller
 {
@@ -39,8 +40,12 @@ class AppointmentController extends Controller
 
     public function show($id)
     {
-        $appointment = $this->appointmentService->getAppointmentById($id);
-        return new AppointmentResource($appointment); 
+        try {
+            $appointment = $this->appointmentService->getAppointmentById($id);
+            return new AppointmentResource($appointment);
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['error' => 'Appointment not found'], 404);
+        }
     }
 
     public function update(AppointmentRequest $request, $id)
@@ -50,12 +55,18 @@ class AppointmentController extends Controller
             return new AppointmentResource($appointment);
         } catch (ValidationException $e) {
             return response()->json(['errors' => $e->errors()], 422);
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['error' => 'Appointment not found'], 404);
         }
     }
 
     public function destroy($id)
     {
-        $this->appointmentService->deleteAppointment($id);
-        return response()->json(['message' => 'Appointment delete'], 204);
+        try {
+            $this->appointmentService->deleteAppointment($id);
+            return response()->json(['message' => 'Appointment delete'], 204);
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['error' => 'Appointment not found'], 404);
+        }
     }
 }

@@ -9,6 +9,7 @@ use App\Http\Requests\API\ServiceRequest;
 use Illuminate\Validation\ValidationException;
 use App\Http\Resources\API\ServiceResource;
 use App\Services\API\ServiceService;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ServiceController extends Controller
 {
@@ -39,8 +40,12 @@ class ServiceController extends Controller
 
     public function show($id)
     {
-        $service = $this->serviceService->getServiceById($id);
-        return new ServiceResource($service); 
+        try {
+            $service = $this->serviceService->getServiceById($id);
+            return new ServiceResource($service);
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['error' => 'Service not found'], 404);
+        }
     }
 
     public function update(ServiceRequest $request, $id)
@@ -50,12 +55,18 @@ class ServiceController extends Controller
             return new ServiceResource($service);
         } catch (ValidationException $e) {
             return response()->json(['errors' => $e->errors()], 422);
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['error' => 'Service not found'], 404);
         }
     }
 
     public function destroy($id)
     {
-        $this->serviceService->deleteService($id);
-        return response()->json(['message' => 'Service delete'], 204);
+        try {
+            $this->serviceService->deleteService($id);
+            return response()->json(['message' => 'Service delete'], 204);
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['error' => 'Service not found'], 404);
+        }
     }
 }

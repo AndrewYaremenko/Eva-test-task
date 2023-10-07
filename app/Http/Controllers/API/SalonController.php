@@ -9,6 +9,7 @@ use App\Http\Requests\API\SalonRequest;
 use Illuminate\Validation\ValidationException;
 use App\Http\Resources\API\SalonResource;
 use App\Services\API\SalonService;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class SalonController extends Controller
 {
@@ -26,12 +27,12 @@ class SalonController extends Controller
     }
 
     public function store(SalonRequest $request)
-    {   
+    {
         try {
             $salon = $this->salonService->createSalon($request);
             return (new SalonResource($salon))
-            ->response()
-            ->setStatusCode(201);
+                ->response()
+                ->setStatusCode(201);
         } catch (ValidationException $e) {
             return response()->json(['errors' => $e->errors()], 422);
         }
@@ -39,8 +40,12 @@ class SalonController extends Controller
 
     public function show($id)
     {
-        $salon = $this->salonService->getSalonById($id);
-        return new SalonResource($salon); 
+        try {
+            $salon = $this->salonService->getSalonById($id);
+            return new SalonResource($salon);
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['error' => 'Salon not found'], 404);
+        }
     }
 
     public function update(SalonRequest $request, $id)
@@ -48,16 +53,22 @@ class SalonController extends Controller
         try {
             $salon = $this->salonService->updateSalon($request, $id);
             return (new SalonResource($salon))
-            ->response()
-            ->setStatusCode(201);
+                ->response()
+                ->setStatusCode(201);
         } catch (ValidationException $e) {
             return response()->json(['errors' => $e->errors()], 422);
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['error' => 'Salon not found'], 404);
         }
     }
 
     public function destroy($id)
     {
-        $this->salonService->deleteSalon($id);
-        return response()->json(['message' => 'Salon delete'], 204);
+        try {
+            $this->salonService->deleteSalon($id);
+            return response()->json(['message' => 'Salon delete'], 204);
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['error' => 'Salon not found'], 404);
+        }
     }
 }
