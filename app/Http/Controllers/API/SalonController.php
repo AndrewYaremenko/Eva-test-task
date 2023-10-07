@@ -3,12 +3,10 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Models\Salon;
 use App\Http\Requests\API\SalonRequest;
 use Illuminate\Validation\ValidationException;
 use App\Http\Resources\API\SalonResource;
-use App\Services\API\SalonService;
+use App\Http\Services\API\SalonService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class SalonController extends Controller

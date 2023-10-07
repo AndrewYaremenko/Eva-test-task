@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Services\API;
+namespace App\Http\Services\API;
 
 use App\Models\Appointment;
 use App\Http\Requests\API\AppointmentRequest;
-use Illuminate\Validation\ValidationException;
 
 class AppointmentService
 {

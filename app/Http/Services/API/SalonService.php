@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Services\API;
+namespace App\Http\Services\API;
 
 use App\Models\Salon;
 use App\Http\Requests\API\SalonRequest;
-use Illuminate\Validation\ValidationException;
 
 class SalonService
 {

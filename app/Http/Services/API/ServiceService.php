@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Services\API;
+namespace App\Http\Services\API;
 
 use App\Models\Service;
 use App\Http\Requests\API\ServiceRequest;
-use Illuminate\Validation\ValidationException;
 
 class ServiceService
 {

@@ -3,12 +3,10 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Models\Appointment;
 use App\Http\Requests\API\AppointmentRequest;
 use Illuminate\Validation\ValidationException;
 use App\Http\Resources\API\AppointmentResource;
-use App\Services\API\AppointmentService;
+use App\Http\Services\API\AppointmentService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class AppointmentController extends Controller

@@ -3,12 +3,10 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Models\Service;
 use App\Http\Requests\API\ServiceRequest;
 use Illuminate\Validation\ValidationException;
 use App\Http\Resources\API\ServiceResource;
-use App\Services\API\ServiceService;
+use App\Http\Services\API\ServiceService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ServiceController extends Controller
