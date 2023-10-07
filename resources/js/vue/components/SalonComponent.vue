@@ -70,9 +70,8 @@ export default {
     goToBookingPage() {
       this.$router.push({
         path: "/appointment",
-        params: {
-          salonId: this.selectedSalon,
-          serviceId: this.selectedService,
+        query: {
+          serviceId: this.selectedService.id,
         },
       });
     },

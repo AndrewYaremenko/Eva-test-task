@@ -25,7 +25,8 @@ class AppointmentRequest extends FormRequest
     {
         return [
             'service_id' => 'required|exists:services,id',
-            'appointment_date' => 'required|date',
+            'date' => 'required|date',
+            'hour' => 'required|integer|min:10,max:18',
             'name' => 'required|string|max:255',
             'phone_number' => 'required|string|max:20',
         ];

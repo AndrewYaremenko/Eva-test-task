@@ -22146,6 +22146,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _vuepic_vue_datepicker__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @vuepic/vue-datepicker */ "./node_modules/@vuepic/vue-datepicker/dist/vue-datepicker.js");
 /* harmony import */ var _vuepic_vue_datepicker_dist_main_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @vuepic/vue-datepicker/dist/main.css */ "./node_modules/@vuepic/vue-datepicker/dist/main.css");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
+
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -22154,8 +22157,76 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      date: null
+      date: null,
+      selectedHour: "",
+      availableHours: [],
+      name: "",
+      phone: "",
+      isSuccessfulRequest: false
     };
+  },
+  methods: {
+    loadAvailableHours: function loadAvailableHours() {
+      var _this = this;
+      if (!this.date) return;
+      var serviceId = this.$route.query.serviceId;
+      var formattedDate = this.formatDate(this.date);
+      this.selectedHour = "";
+      axios__WEBPACK_IMPORTED_MODULE_2___default().get("/api/appointments/hours/free", {
+        params: {
+          id: serviceId,
+          date: formattedDate
+        }
+      }).then(function (response) {
+        _this.availableHours = response.data.freeHours;
+      })["catch"](function (error) {
+        console.error("Error during upload free hours", error);
+      });
+    },
+    cleared: function cleared() {
+      this.selectedHour = "";
+    },
+    formatDate: function formatDate(date) {
+      var year = date.getFullYear();
+      var month = String(date.getMonth() + 1).padStart(2, "0");
+      var day = String(date.getDate()).padStart(2, "0");
+      return "".concat(year, "-").concat(month, "-").concat(day);
+    },
+    openModal: function openModal() {
+      $("#modal").modal("show");
+      $("#modal").on("hidden.bs.modal", this.handleModalClose);
+    },
+    closeModal: function closeModal() {
+      $("#modal").modal("hide");
+    },
+    makeAppointment: function makeAppointment() {
+      var _this2 = this;
+      axios__WEBPACK_IMPORTED_MODULE_2___default().post("/api/appointments", {
+        service_id: parseInt(this.$route.query.serviceId),
+        date: this.formatDate(this.date),
+        hour: parseInt(this.selectedHour),
+        name: this.name,
+        phone_number: this.phone
+      }).then(function (response) {
+        _this2.isSuccessfulRequest = true;
+      })["catch"](function (error) {
+        console.error("Error during create appointment", error);
+      });
+    },
+    successfulClose: function successfulClose() {
+      $("#modal").modal("hide");
+      this.$router.push({
+        path: "/salon"
+      });
+    },
+    handleModalClose: function handleModalClose() {
+      if (this.isSuccessfulRequest) {
+        $("#modal").modal("hide");
+        this.$router.push({
+          path: "/salon"
+        });
+      }
+    }
   }
 });
 
@@ -22223,9 +22294,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     goToBookingPage: function goToBookingPage() {
       this.$router.push({
         path: "/appointment",
-        params: {
-          salonId: this.selectedSalon,
-          serviceId: this.selectedService
+        query: {
+          serviceId: this.selectedService.id
         }
       });
     }
@@ -22288,22 +22358,139 @@ __webpack_require__.r(__webpack_exports__);
 var _hoisted_1 = {
   "class": "container col-md-4 offset-md-4 mt-4"
 };
-var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+var _hoisted_2 = {
+  key: 0
+};
+var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
   "class": "mb-4"
-}, "Вибір салону та послуги", -1 /* HOISTED */);
-
+}, "Оберіть салон та послугу", -1 /* HOISTED */);
+var _hoisted_4 = {
+  key: 1
+};
+var _hoisted_5 = {
+  "class": "form-inline"
+};
+var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+  "class": "mb-4"
+}, "Запис на прийом", -1 /* HOISTED */);
+var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", null, "Виберіть дату:", -1 /* HOISTED */);
+var _hoisted_8 = {
+  key: 0,
+  "class": "form-group mb-3"
+};
+var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", null, "Виберіть годину:", -1 /* HOISTED */);
+var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  value: ""
+}, "Виберіть годину", -1 /* HOISTED */);
+var _hoisted_11 = ["value"];
+var _hoisted_12 = {
+  key: 1
+};
+var _hoisted_13 = {
+  "class": "modal",
+  id: "modal"
+};
+var _hoisted_14 = {
+  "class": "modal-dialog"
+};
+var _hoisted_15 = {
+  "class": "modal-content"
+};
+var _hoisted_16 = {
+  "class": "modal-header"
+};
+var _hoisted_17 = {
+  key: 0,
+  "class": "modal-title"
+};
+var _hoisted_18 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "×", -1 /* HOISTED */);
+var _hoisted_19 = [_hoisted_18];
+var _hoisted_20 = {
+  "class": "modal-body"
+};
+var _hoisted_21 = {
+  key: 0
+};
+var _hoisted_22 = {
+  "class": "form-group"
+};
+var _hoisted_23 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "for": "name"
+}, "Ім'я:", -1 /* HOISTED */);
+var _hoisted_24 = {
+  "class": "form-group"
+};
+var _hoisted_25 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "for": "phone"
+}, "Номер телефону:", -1 /* HOISTED */);
+var _hoisted_26 = {
+  key: 1
+};
+var _hoisted_27 = {
+  "class": "modal-footer"
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_router_link = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("router-link");
   var _component_VueDatePicker = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("VueDatePicker");
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_VueDatePicker, {
-    modelValue: $data.date,
-    "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
-      return $data.date = $event;
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [!_ctx.$route.query.serviceId ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_2, [_hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
+    to: "/salon"
+  }, {
+    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Перейти на сторінку вибору салону")];
     }),
+    _: 1 /* STABLE */
+  })])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.$route.query.serviceId ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_hoisted_6, _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_VueDatePicker, {
+    modelValue: $data.date,
+    "onUpdate:modelValue": [_cache[0] || (_cache[0] = function ($event) {
+      return $data.date = $event;
+    }), $options.loadAvailableHours],
     "min-date": new Date(),
     "disabled-week-days": [0],
     "enable-time-picker": false,
-    "auto-apply": ""
-  }, null, 8 /* PROPS */, ["modelValue", "min-date"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(this.date), 1 /* TEXT */)])]);
+    "auto-apply": "",
+    onCleared: $options.cleared,
+    "class": "form-group mb-3"
+  }, null, 8 /* PROPS */, ["modelValue", "min-date", "onUpdate:modelValue", "onCleared"])]), $data.date ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [_hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+      return $data.selectedHour = $event;
+    }),
+    "class": "form-control"
+  }, [_hoisted_10, ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.availableHours, function (hour) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
+      key: hour,
+      value: hour
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(hour) + ":00 ", 9 /* TEXT, PROPS */, _hoisted_11);
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedHour]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.selectedHour ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[2] || (_cache[2] = function () {
+      return $options.openModal && $options.openModal.apply($options, arguments);
+    }),
+    "class": "btn btn-primary"
+  }, " Зробити запис ")])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [$data.date && $data.selectedHour ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("h5", _hoisted_17, "Запис на прийом")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    type: "button",
+    "class": "btn btn-danger",
+    onClick: _cache[3] || (_cache[3] = function ($event) {
+      return $data.isSuccessfulRequest ? $options.successfulClose() : $options.closeModal();
+    })
+  }, _hoisted_19)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [!$data.isSuccessfulRequest ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("form", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [_hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "text",
+    "class": "form-control",
+    id: "name",
+    "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
+      return $data.name = $event;
+    })
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.name]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [_hoisted_25, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "text",
+    "class": "form-control",
+    id: "phone",
+    "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
+      return $data.phone = $event;
+    })
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.phone]])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.isSuccessfulRequest ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_26, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatDate($data.date)) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedHour) + ":00 ", 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[6] || (_cache[6] = function ($event) {
+      return $data.isSuccessfulRequest ? $options.successfulClose() : $options.makeAppointment();
+    }),
+    "class": "btn btn-primary"
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.isSuccessfulRequest ? "ОК" : "Записатися"), 1 /* TEXT */)])])])])], 64 /* STABLE_FRAGMENT */);
 }
 
 /***/ }),
