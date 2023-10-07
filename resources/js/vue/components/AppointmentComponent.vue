@@ -1,6 +1,6 @@
 <template>
   <div>
-    <router-link to="/salon">Appointment</router-link>
+    appointment
   </div>
 </template>
 

@@ -18,8 +18,6 @@ class ServiceResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'salon_id' => $this->salon_id,
-            'salon' => new SalonResource($this->salon),
-            'appointments' => AppointmentResource::collection($this->appointments),
         ];
     }
 }
