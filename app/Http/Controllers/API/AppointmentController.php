@@ -8,6 +8,7 @@ use Illuminate\Validation\ValidationException;
 use App\Http\Resources\API\AppointmentResource;
 use App\Http\Services\API\AppointmentService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Request;
 
 class AppointmentController extends Controller
 {
@@ -66,5 +67,11 @@ class AppointmentController extends Controller
         } catch (ModelNotFoundException $e) {
             return response()->json(['error' => 'Appointment not found'], 404);
         }
+    }
+
+    public function freeHours(Request $request)
+    {
+        $freeHours = $this->appointmentService->freeHours($request);
+        return response()->json(['freeHours' => $freeHours]);
     }
 }

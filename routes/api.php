@@ -43,4 +43,5 @@ Route::group(['prefix' => 'appointments', 'as' => 'api.appointments.'], function
     Route::get('/{id}', [AppointmentController::class, 'show'])->name('show');
     Route::put('/{id}', [AppointmentController::class, 'update'])->name('update');
     Route::delete('/{id}', [AppointmentController::class, 'destroy'])->name('destroy');
+    Route::get('/hours/free', [AppointmentController::class, 'freeHours'])->name('freeHours');
 });

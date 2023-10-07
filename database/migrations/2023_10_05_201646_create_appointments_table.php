@@ -17,7 +17,8 @@ class CreateAppointmentsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('service_id');
             $table->foreign('service_id')->references('id')->on('services');
-            $table->dateTime('appointment_date');
+            $table->date('date');
+            $table->integer('hour');
             $table->string('name');
             $table->string('phone_number');
             $table->timestamps();

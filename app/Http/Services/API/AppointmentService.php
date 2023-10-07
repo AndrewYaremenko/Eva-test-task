@@ -4,6 +4,7 @@ namespace App\Http\Services\API;
 
 use App\Models\Appointment;
 use App\Http\Requests\API\AppointmentRequest;
+use Illuminate\Http\Request;
 
 class AppointmentService
 {
@@ -38,5 +39,13 @@ class AppointmentService
     {
         $appointment = Appointment::findOrFail($id);
         $appointment->delete();
+    }
+
+    public function freeHours(Request $request)
+    {
+        $date = $request->query('date');
+        $id = $request->query('id');
+        $freeHours = Appointment::getFreeHoursForService($date, $id);
+        return $freeHours;
     }
 }
