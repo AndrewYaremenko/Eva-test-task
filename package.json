@@ -21,7 +21,8 @@
         "sass-loader": "^11.0.1",
         "vue": "^3.2.36",
         "vue-loader": "^17.3.0",
+        "vue-router": "^4.0.13",
         "vue-template-compiler": "^2.6.12",
-        "vue-router": "^4.0.13"
+        "@vuepic/vue-datepicker": "^7.1.0"
     }
 }
