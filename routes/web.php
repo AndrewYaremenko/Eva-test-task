@@ -18,4 +18,4 @@ Route::get('/', function () {
 });
 
 Route::view('/salon', 'salon');
-Route::view('/service', 'service');
+Route::view('/appointment', 'appointment');
