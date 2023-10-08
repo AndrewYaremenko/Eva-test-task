@@ -43,6 +43,7 @@
 
 <script>
 import axios from "axios";
+import { mapActions } from "vuex";
 
 export default {
   name: "SalonComponent",
@@ -55,6 +56,8 @@ export default {
     };
   },
   methods: {
+    ...mapActions(["selectSalon", "selectService"]),
+
     async loadSalons() {
       try {
         const response = await axios.get("/api/salons");
@@ -63,16 +66,17 @@ export default {
         console.error("Ошибка при загрузке салонов", error);
       }
     },
+
     loadServices() {
       this.selectedService = "";
       this.services = this.selectedSalon.services;
     },
+
     goToBookingPage() {
+      this.selectSalon(this.selectedSalon);
+      this.selectService(this.selectedService);
       this.$router.push({
         path: "/appointment",
-        query: {
-          serviceId: this.selectedService.id,
-        },
       });
     },
   },

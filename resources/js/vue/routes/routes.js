@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import SalonComponent from './vue/components/SalonComponent.vue';
-import AppointmentComponent from './vue/components/AppointmentComponent.vue'
+import SalonComponent from '../components/SalonComponent.vue';
+import AppointmentComponent from '../components/AppointmentComponent.vue'
 
 const routes = [
   { path: '/salon', component: SalonComponent, meta: { title: 'Salon' } },
