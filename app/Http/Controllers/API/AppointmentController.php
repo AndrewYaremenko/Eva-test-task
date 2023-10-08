@@ -19,9 +19,9 @@ class AppointmentController extends Controller
         $this->appointmentService = $appointmentService;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $appointments = $this->appointmentService->getAllAppointments();
+        $appointments = $this->appointmentService->getAllAppointments($request);
         return AppointmentResource::collection($appointments);
     }
 

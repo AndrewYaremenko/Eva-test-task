@@ -8,9 +8,25 @@ use Illuminate\Http\Request;
 
 class AppointmentService
 {
-    public function getAllAppointments()
+    public function getAllAppointments(Request $request)
     {
-        $appointments = Appointment::orderBy('appointment_date', 'desc')->get();
+
+        $sort = $request->input('sort');
+        $query = Appointment::query();
+
+        if ($sort) {
+            if ($sort === 'asc') {
+                $query->orderBy('date', 'asc');
+            } elseif ($sort === 'desc') {
+                $query->orderBy('date', 'desc');
+            } elseif ($sort === 'service') {
+                $query->orderBy('service_id');
+            }
+        } else {
+            $query->orderBy('date', 'desc');
+        }
+
+        $appointments = $query->get();
         return $appointments;
     }
 

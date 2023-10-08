@@ -19,3 +19,7 @@ Route::get('/', function () {
 
 Route::view('/salon', 'salon');
 Route::view('/appointment', 'appointment');
+Route::view('/admin', 'admin.admin');
+Route::view('/admin/salons', 'admin.salon');
+Route::view('/admin/services', 'admin.service');
+Route::view('/admin/appointments', 'admin.appointment');
