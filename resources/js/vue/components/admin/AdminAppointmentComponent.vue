@@ -59,7 +59,7 @@ export default {
     sortAppointments(sortType) {
       // Отправляем запрос на сервер с параметром sort
       axios
-        .get(`/api/appointments?sort=${sortType}`)
+        .get(`/api/v1/appointments?sort=${sortType}`)
         .then((response) => {
           this.appointments = response.data.data;
         })
@@ -70,7 +70,7 @@ export default {
   },
   mounted() {
     axios
-      .get("/api/appointments")
+      .get("/api/v1/appointments")
       .then((response) => {
         this.appointments = response.data.data;
       })

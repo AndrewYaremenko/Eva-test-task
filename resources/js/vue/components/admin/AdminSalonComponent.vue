@@ -178,7 +178,7 @@ export default {
   methods: {
     loadSalons() {
       axios
-        .get("/api/salons")
+        .get("/api/v1/salons")
         .then((response) => {
           this.salons = response.data.data;
         })
@@ -197,7 +197,7 @@ export default {
 
     createSalon() {
       axios
-        .post("/api/salons/", this.newSalon)
+        .post("/api/v1/salons/", this.newSalon)
         .then((response) => {
           this.closeCreateModal();
           this.loadSalons();
@@ -227,7 +227,7 @@ export default {
 
     updateSalon(id) {
       axios
-        .put("/api/salons/" + id, this.selectedSalon)
+        .put("/api/v1/salons/" + id, this.selectedSalon)
         .then((response) => {
           this.closeUpdateModal();
           this.loadSalons();
@@ -242,7 +242,7 @@ export default {
 
     deleteSalon(id) {
       axios
-        .delete("/api/salons/" + id)
+        .delete("/api/v1/salons/" + id)
         .then((response) => {})
         .catch((error) => {
           console.error("Ошибка при получении данных:", error);

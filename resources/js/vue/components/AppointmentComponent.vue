@@ -152,7 +152,7 @@ export default {
       this.selectedHour = "";
 
       axios
-        .get("/api/appointments/hours/free", {
+        .get("/api/v1/appointments/hours/free", {
           params: {
             id: serviceId,
             date: formattedDate,
@@ -189,7 +189,7 @@ export default {
     },
     makeAppointment() {
       axios
-        .post("/api/appointments", {
+        .post("/api/v1/appointments", {
           service_id: parseInt(this.selectedService.id),
           date: this.formatDate(this.date),
           hour: parseInt(this.selectedHour),

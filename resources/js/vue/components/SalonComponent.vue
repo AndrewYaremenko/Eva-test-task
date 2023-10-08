@@ -60,7 +60,7 @@ export default {
 
     async loadSalons() {
       try {
-        const response = await axios.get("/api/salons");
+        const response = await axios.get("/api/v1/salons");
         this.salons = response.data.data;
       } catch (error) {
         console.error("Ошибка при загрузке салонов", error);

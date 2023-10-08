@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\API;
+namespace App\Http\Requests\API\v1;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AppointmentRequest extends FormRequest
+class ServiceRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +24,8 @@ class AppointmentRequest extends FormRequest
     public function rules()
     {
         return [
-            'service_id' => 'required|exists:services,id',
-            'date' => 'required|date',
-            'hour' => 'required|integer|min:10,max:18',
             'name' => 'required|string|max:255',
-            'phone_number' => 'required|string|max:20',
+            'salon_id' => 'required|exists:salons,id',
         ];
     }
 }

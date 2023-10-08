@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\API\ServiceRequest;
+use App\Http\Requests\API\v1\ServiceRequest;
 use Illuminate\Validation\ValidationException;
-use App\Http\Resources\API\ServiceResource;
-use App\Http\Services\API\ServiceService;
+use App\Http\Resources\API\v1\ServiceResource;
+use App\Http\Services\API\v1\ServiceService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ServiceController extends Controller

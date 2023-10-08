@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Services\API;
+namespace App\Http\Services\API\v1;
 
 use App\Models\Appointment;
-use App\Http\Requests\API\AppointmentRequest;
+use App\Http\Requests\API\v1\AppointmentRequest;
 use Illuminate\Http\Request;
 
 class AppointmentService

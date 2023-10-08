@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Services\API;
+namespace App\Http\Services\API\v1;
 
 use App\Models\Salon;
-use App\Http\Requests\API\SalonRequest;
+use App\Http\Requests\API\v1\SalonRequest;
 
 class SalonService
 {

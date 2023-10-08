@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\API\SalonRequest;
+use App\Http\Requests\API\v1\SalonRequest;
 use Illuminate\Validation\ValidationException;
-use App\Http\Resources\API\SalonResource;
-use App\Http\Services\API\SalonService;
+use App\Http\Resources\API\v1\SalonResource;
+use App\Http\Services\API\v1\SalonService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class SalonController extends Controller

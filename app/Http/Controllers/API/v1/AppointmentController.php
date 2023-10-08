@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\API\AppointmentRequest;
+use App\Http\Requests\API\v1\AppointmentRequest;
 use Illuminate\Validation\ValidationException;
-use App\Http\Resources\API\AppointmentResource;
-use App\Http\Services\API\AppointmentService;
+use App\Http\Resources\API\v1\AppointmentResource;
+use App\Http\Services\API\v1\AppointmentService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 

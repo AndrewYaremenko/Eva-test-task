@@ -198,7 +198,7 @@ export default {
   methods: {
     loadServices() {
       axios
-        .get("/api/services")
+        .get("/api/v1/services")
         .then((response) => {
           this.services = response.data.data;
         })
@@ -208,7 +208,7 @@ export default {
     },
     loadSalons() {
       axios
-        .get("/api/salons")
+        .get("/api/v1/salons")
         .then((response) => {
           this.salons = response.data.data;
         })
@@ -228,7 +228,7 @@ export default {
 
     createService() {
       axios
-        .post("/api/services/", this.newService)
+        .post("/api/v1/services/", this.newService)
         .then((response) => {
           this.closeCreateModal();
           this.loadServices();
@@ -259,7 +259,7 @@ export default {
 
     updateService(id) {
       axios
-        .put("/api/services/" + id, this.selectedService)
+        .put("/api/v1/services/" + id, this.selectedService)
         .then((response) => {
           this.closeUpdateModal();
           this.loadServices();
@@ -274,7 +274,7 @@ export default {
 
     deleteService(id) {
       axios
-        .delete("/api/services/" + id)
+        .delete("/api/v1/services/" + id)
         .then((response) => {})
         .catch((error) => {
           console.error("Ошибка при получении данных:", error);
@@ -284,7 +284,7 @@ export default {
   },
   mounted() {
     axios
-      .get("/api/services")
+      .get("/api/v1/services")
       .then((response) => {
         this.services = response.data.data;
       })

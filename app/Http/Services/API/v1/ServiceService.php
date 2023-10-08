@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Services\API;
+namespace App\Http\Services\API\v1;
 
 use App\Models\Service;
-use App\Http\Requests\API\ServiceRequest;
+use App\Http\Requests\API\v1\ServiceRequest;
 
 class ServiceService
 {

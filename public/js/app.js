@@ -22182,7 +22182,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       var serviceId = this.selectedService.id;
       var formattedDate = this.formatDate(this.date);
       this.selectedHour = "";
-      axios__WEBPACK_IMPORTED_MODULE_2___default().get("/api/appointments/hours/free", {
+      axios__WEBPACK_IMPORTED_MODULE_2___default().get("/api/v1/appointments/hours/free", {
         params: {
           id: serviceId,
           date: formattedDate
@@ -22213,7 +22213,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     },
     makeAppointment: function makeAppointment() {
       var _this2 = this;
-      axios__WEBPACK_IMPORTED_MODULE_2___default().post("/api/appointments", {
+      axios__WEBPACK_IMPORTED_MODULE_2___default().post("/api/v1/appointments", {
         service_id: parseInt(this.selectedService.id),
         date: this.formatDate(this.date),
         hour: parseInt(this.selectedHour),
@@ -22298,7 +22298,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
             case 0:
               _context.prev = 0;
               _context.next = 3;
-              return axios__WEBPACK_IMPORTED_MODULE_0___default().get("/api/salons");
+              return axios__WEBPACK_IMPORTED_MODULE_0___default().get("/api/v1/salons");
             case 3:
               response = _context.sent;
               _this.salons = response.data.data;
@@ -22375,7 +22375,7 @@ __webpack_require__.r(__webpack_exports__);
     sortAppointments: function sortAppointments(sortType) {
       var _this = this;
       // Отправляем запрос на сервер с параметром sort
-      axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/appointments?sort=".concat(sortType)).then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/v1/appointments?sort=".concat(sortType)).then(function (response) {
         _this.appointments = response.data.data;
       })["catch"](function (error) {
         console.error("Ошибка при получении отсортированных данных:", error);
@@ -22384,7 +22384,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     var _this2 = this;
-    axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/appointments").then(function (response) {
+    axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/v1/appointments").then(function (response) {
       _this2.appointments = response.data.data;
     })["catch"](function (error) {
       console.error("Ошибка при получении данных:", error);
@@ -22454,7 +22454,7 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     loadSalons: function loadSalons() {
       var _this = this;
-      axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/salons").then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/v1/salons").then(function (response) {
         _this.salons = response.data.data;
       })["catch"](function (error) {
         console.error("Ошибка при получении данных:", error);
@@ -22469,7 +22469,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     createSalon: function createSalon() {
       var _this2 = this;
-      axios__WEBPACK_IMPORTED_MODULE_1___default().post("/api/salons/", this.newSalon).then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_1___default().post("/api/v1/salons/", this.newSalon).then(function (response) {
         _this2.closeCreateModal();
         _this2.loadSalons();
         _this2.newSalon = {
@@ -22495,7 +22495,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     updateSalon: function updateSalon(id) {
       var _this3 = this;
-      axios__WEBPACK_IMPORTED_MODULE_1___default().put("/api/salons/" + id, this.selectedSalon).then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_1___default().put("/api/v1/salons/" + id, this.selectedSalon).then(function (response) {
         _this3.closeUpdateModal();
         _this3.loadSalons();
         _this3.selectedSalon = {};
@@ -22506,7 +22506,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     deleteSalon: function deleteSalon(id) {
-      axios__WEBPACK_IMPORTED_MODULE_1___default()["delete"]("/api/salons/" + id).then(function (response) {})["catch"](function (error) {
+      axios__WEBPACK_IMPORTED_MODULE_1___default()["delete"]("/api/v1/salons/" + id).then(function (response) {})["catch"](function (error) {
         console.error("Ошибка при получении данных:", error);
       });
       this.loadSalons();
@@ -22559,7 +22559,7 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     loadServices: function loadServices() {
       var _this = this;
-      axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/services").then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/v1/services").then(function (response) {
         _this.services = response.data.data;
       })["catch"](function (error) {
         console.error("Ошибка при получении данных:", error);
@@ -22567,7 +22567,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     loadSalons: function loadSalons() {
       var _this2 = this;
-      axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/salons").then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/v1/salons").then(function (response) {
         _this2.salons = response.data.data;
       })["catch"](function (error) {
         console.error("Ошибка при получении данных о салонах:", error);
@@ -22583,7 +22583,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     createService: function createService() {
       var _this3 = this;
-      axios__WEBPACK_IMPORTED_MODULE_1___default().post("/api/services/", this.newService).then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_1___default().post("/api/v1/services/", this.newService).then(function (response) {
         _this3.closeCreateModal();
         _this3.loadServices();
         _this3.newService = {
@@ -22610,7 +22610,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     updateService: function updateService(id) {
       var _this4 = this;
-      axios__WEBPACK_IMPORTED_MODULE_1___default().put("/api/services/" + id, this.selectedService).then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_1___default().put("/api/v1/services/" + id, this.selectedService).then(function (response) {
         _this4.closeUpdateModal();
         _this4.loadServices();
         _this4.selectedService = {};
@@ -22621,7 +22621,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     deleteService: function deleteService(id) {
-      axios__WEBPACK_IMPORTED_MODULE_1___default()["delete"]("/api/services/" + id).then(function (response) {})["catch"](function (error) {
+      axios__WEBPACK_IMPORTED_MODULE_1___default()["delete"]("/api/v1/services/" + id).then(function (response) {})["catch"](function (error) {
         console.error("Ошибка при получении данных:", error);
       });
       this.loadServices();
@@ -22629,7 +22629,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     var _this5 = this;
-    axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/services").then(function (response) {
+    axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/v1/services").then(function (response) {
       _this5.services = response.data.data;
     })["catch"](function (error) {
       console.error("Ошибка при получении данных:", error);
