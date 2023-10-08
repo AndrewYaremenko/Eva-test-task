@@ -18,7 +18,7 @@ class CreateAppointmentsTable extends Migration
             $table->unsignedBigInteger('service_id');
             $table->foreign('service_id')->references('id')->on('services')->onDelete('cascade');
             $table->date('date');
-            $table->integer('hour');
+            $table->string('hour');
             $table->string('name');
             $table->string('phone_number');
             $table->timestamps();

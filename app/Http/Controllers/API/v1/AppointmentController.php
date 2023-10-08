@@ -71,7 +71,11 @@ class AppointmentController extends Controller
 
     public function freeHours(Request $request)
     {
-        $freeHours = $this->appointmentService->freeHours($request);
-        return response()->json(['freeHours' => $freeHours]);
+        try {
+            $freeHours = $this->appointmentService->freeHours($request);
+            return response()->json(['freeHours' => $freeHours]);
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['error' => 'Appointment not found'], 404);
+        }
     }
 }

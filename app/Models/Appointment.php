@@ -24,8 +24,8 @@ class Appointment extends Model
 
     public static function getFreeHoursForService($date, $serviceId)
     {
-        $startTime = 10;
-        $endTime = 18;
+        $startTime = '10:00';
+        $endTime = '18:00';
 
         $busyHours = self::where('date', $date)
             ->where('service_id', $serviceId)
@@ -34,10 +34,13 @@ class Appointment extends Model
 
         $freeHours = [];
 
-        for ($hour = $startTime; $hour <= $endTime; $hour++) {
-            if (!in_array($hour, $busyHours)) {
-                $freeHours[] = $hour;
+        $currentHour = $startTime;
+        while ($currentHour <= $endTime) {
+            if (!in_array($currentHour, $busyHours)) {
+                $freeHours[] = $currentHour;
             }
+
+            $currentHour = date('H:i', strtotime($currentHour . ' +30 minutes'));
         }
 
         return $freeHours;

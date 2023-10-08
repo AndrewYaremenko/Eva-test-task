@@ -48,7 +48,7 @@
               Немає вільних годин
             </option>
             <option v-for="hour in availableHours" :key="hour" :value="hour">
-              {{ hour }}:00
+              {{ hour }}
             </option>
           </select>
         </div>
@@ -105,7 +105,7 @@
             </div>
           </form>
           <div v-if="isSuccessfulRequest">
-            {{ formatDate(date) }} {{ selectedHour }}:00<br />
+            {{ formatDate(date) }} {{ selectedHour }}<br />
             {{ selectedService.name }}<br />
             {{ selectedSalon.address }}
           </div>
@@ -192,7 +192,7 @@ export default {
         .post("/api/v1/appointments", {
           service_id: parseInt(this.selectedService.id),
           date: this.formatDate(this.date),
-          hour: parseInt(this.selectedHour),
+          hour: this.selectedHour,
           name: this.name,
           phone_number: this.phone,
         })
