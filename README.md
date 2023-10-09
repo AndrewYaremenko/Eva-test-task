@@ -45,5 +45,5 @@
 - Скопіюйте файл ```.env.docker``` та перейменуйте його в ```.env```
 - Запустіть додаток: ```docker-compose up -d```
 - Відкрийте термінал контейнера: ```docker exec -it project_app bash```
-- Виконайте міграцію таблиць у БД за допомогою команди: ```php artisan migrate```
+- Виконайте міграцію таблиць у БД: ```php artisan migrate```
 - Згенеруйте ключ додатку: ```php artisan key:generate```
